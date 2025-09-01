@@ -53,7 +53,7 @@ int handle_client(int client) {
     char buffer[1024];
     read(client, buffer, sizeof(buffer));
     
-    const char *templ = file_to_char("./template.html");
+    const char *templ = file_to_char("../template.html");
     if (templ == NULL) {
 	fprintf(stderr, "[FAILED] : Template could not be loaded.\n");
 	close(client);
