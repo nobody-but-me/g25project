@@ -61,7 +61,7 @@ int handle_client(int client)
     read(client, buffer, sizeof(buffer));
     
     // TODO: bad practice: casting away const-ness.
-    char *templ = (char *)file_to_char("../templates/template.html");
+    char *templ = (char *)file_to_char("../index.html");
     char *result = (char *)translate_content();
     
     if (templ == NULL) {

@@ -24,6 +24,8 @@ And then open the local address http://localhost:4242 in your browser.
  - [ ] Multiple paging support;
  - [ ] ;
  ###### Structure
+ - [ ] Bash : Check for possible errors in compilation;
+ - [ ] Bash : option to run or not the program after compilation;
  - [ ] Switch from shell scripts to makefiles, if necessary;
  - [ ] Write a better README file;
  - [ ] ;
