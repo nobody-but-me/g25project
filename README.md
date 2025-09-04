@@ -7,8 +7,7 @@ Execurator is meant to be an all-in-one single-binary static website generator f
 
 ```bash
 
- > mkdir build && build
- > ../build.sh && ./out
+ > ./build.sh
 
 ```
 
