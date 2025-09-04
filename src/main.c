@@ -87,7 +87,7 @@ static char *strrep(char *orig, char *rep, char *with)
     return result;
 }
 
-const char *translate_content()
+static const char *translate_content()
 {
     char *tmp = load_file("../templates/_template.rd"); // temporary file for tests
     if (!tmp) {
