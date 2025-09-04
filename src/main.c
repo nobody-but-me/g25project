@@ -11,51 +11,6 @@
 
 #include "./include/parser.h"
 
-#define VERBOSE false
-
-const char *file_to_char(const char *file_path)
-{
-    long buffer_size = 0;
-    char *buffer;
-    FILE *file;
-    
-    file = fopen(file_path, "r");
-    if (file == NULL) {
-	fprintf(stderr, "[FAILED] : File could not be loaded. \n");
-	fclose(file);
-	return NULL;
-    }
-    if (fseek(file, 0, SEEK_END) < 0) goto BLANK;
-    buffer_size = ftell(file);
-    buffer = (char *)malloc(buffer_size + 1);
-    if (buffer == NULL) {
-	fprintf(stderr, "[FAILED] : Buffer could not be read. \n");
-	return NULL;
-    }
-    
-    if (fseek(file, 0, SEEK_SET) < 0) goto BLANK;
-    fread(buffer, 1, buffer_size, file);
-    if (ferror(file)) {
-	fprintf(stderr, "[FAILED] : File could not be read. \n");
-	return NULL;
-    }
-    fclose(file);
-    
-#if VERBOSE == true
-    printf("[INFO] : File have been loaded sucessfully. \n");
-#endif
-    const char *result = buffer;
-    return result;
-    
-BLANK:
-    fprintf(stderr, "[INFO] : File is blank. \n");
-    fclose(file);
-    
-    buffer = (char *)malloc(sizeof(char));
-    free(buffer);
-    return NULL;
-}
-
 // TODO: change this the place of the function below.
 static char *strrep(char *orig, char *rep, char *with)
 {
