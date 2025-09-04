@@ -96,31 +96,7 @@ const char *translate_content()
     }
     const char *_tmp = tmp;
     
-    RadownValue *main = lexer(&_tmp);
-    char *content = "";
-    while (main != NULL) {
-	// TODO: Refactoring needed.
-	char *old_content = content;
-	char *new_content;
-	
-	if (main->type == TYPE_HEADER) {
-	    char *tag = "<h1></h1>";
-	    size_t length = sizeof(char) * (strlen(main->header_value) + strlen(tag) + 1);
-	    new_content = (char*)malloc(length);
-	    
-	    sprintf(new_content, "<h1>%s</h1>", main->header_value);
-	} else {
-	    char *tag = "<p></p>";
-	    size_t length = sizeof(char) * (strlen(main->header_value) + strlen(tag) + 1);
-	    new_content = (char*)malloc(length);
-	    
-	    sprintf(new_content, "<p>%s</p>", main->header_value);
-	}
-	
-	content = (char*)malloc((strlen(content) * 2) + strlen(new_content) + 1);
-	sprintf(content, "%s%s", old_content, new_content);
-	main = lexer(&_tmp);
-    }
+    const char *content = lexer(_tmp);
     return content;
 }
 
@@ -150,8 +126,6 @@ int handle_client(int client)
 	return -1;
     }
     sprintf(html, "%s%s", http_header, templ);
-    
-    printf("[INFO] html content: \n%s\n\n", html);
     
     write(client, html, strlen(html));
     close(client);

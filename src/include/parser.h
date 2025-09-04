@@ -23,7 +23,8 @@ char *read_header(const char **text);
 char *read_para(const char **text);
 void jump_space(const char **text);
 
-RadownValue *lexer(const char **text);
+RadownValue *parse(const char **text);
+char *lexer(const char *tmp);
 
 
 #endif//PARSER_H
