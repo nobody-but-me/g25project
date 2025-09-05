@@ -11,10 +11,12 @@
 #include "./utils/os.h"
 
 
-static char *read_string(const char **text)
+
+static char *read_string(const char **text, const char *tag)
 {
     const char *start = *text;
-    while (**text != '[' && **text != '\0') {
+    // while (**text != '[' && **text != '\0') {
+    while (strncmp(*text, tag, strlen(tag)) && **text != '\0') {
 	(*text)++;
     }
     size_t   length = (size_t)(*text - start);
@@ -24,12 +26,12 @@ static char *read_string(const char **text)
     return result;
 }
 
-static char *r(const char **text, int amount2jump, char *tag) {
-    *text += amount2jump;
+static char *r(const char **text, const char *tag) {
+    *text += strlen(tag) - 1;
     
-    char *result = read_string(text);
-    if (strncmp(*text, tag, amount2jump) == 0) {
-	(*text) += (amount2jump + 1);
+    char *result = read_string(text, tag);
+    if (strncmp(*text, tag, (strlen(tag) - 1)) == 0) {
+	(*text) += strlen(tag);
     }
     return result;
 }
@@ -39,9 +41,10 @@ char *read_content(const char **text)
     if (**text != '[') return NULL;
     (*text)++;
     
-    if (strncmp(*text, "header]", 7) == 0)    return r(text, 7, "[header]");
-    else if (strncmp(*text, "para]", 5) == 0) return r(text, 5, "[para]");
-    else if (strncmp(*text, "link]", 5) == 0) return r(text, 5, "[link]");
+    // not the better code ever... actually, very far from.
+    if (strncmp(*text, "header]",  strlen("header]")) == 0) return r(text, "[header]");
+    else if (strncmp(*text, "para]", strlen("para]")) == 0) return r(text, "[para]");
+    else if (strncmp(*text, "link]", strlen("link]")) == 0) return r(text, "[link]");
 }
 
 void jump_space(const char ** text)
