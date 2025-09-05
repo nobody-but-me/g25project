@@ -30,39 +30,42 @@ static const char *translate_content()
 
 int handle_client(int client)
 {
-    char buffer[1024];
-    read(client, buffer, sizeof(buffer));
+    char buffer[1024] = {0};
+    if (read(client, buffer, sizeof(buffer)) < 0) {
+	fprintf(stderr, "[FAILED] : Failed to read buffer from client. \n");
+	return -1;
+    }
+    const char *templ  = file_to_char("../index.html");
+    const char *result = translate_content();
     
-    // TODO: bad practice: casting away const-ness.
-    char *templ = (char *)file_to_char("../index.html");
-    char *result = (char *)translate_content();
-    
-    if (templ == NULL) {
+    if (templ == NULL || result == NULL) {
 	fprintf(stderr, "[FAILED] : Template could not be loaded.\n");
+	const char *err = "HTTP/1.1 500 Internal Server Error\r\nContent-Type: text/plain\r\n\r\nInternal Server Error";
+	write(client, err, strlen(err));
 	close(client);
 	return -1;
     }
     const char *http_header = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
-    char *html;
-    
-    int new_length = sizeof(char) * (strlen(http_header) + strlen(templ) + 1);
-    html = (char *)malloc(new_length);
-    
-    char *new_templ = (char*)malloc(strlen(templ) + strlen(result) + 1);
-    sprintf(new_templ, "%s", templ);
-    
-    new_templ = strrep(new_templ, "%t", result);
-    if (new_templ == NULL) {
-	fprintf(stderr, "[FAILED] : Program could not write content into template.\n");
+    char *html = strrep(templ, "%t", result);
+    if (html == NULL) {
+	fprintf(stderr, "[FAILED] : Failed to inject Radown files content into HTML script.\n");
+	close(client);
 	return -1;
     }
-    sprintf(html, "%s%s", http_header, new_templ);
     
-    write(client, html, strlen(html));
+    size_t new_length = (strlen(http_header) + strlen(html) + 1);
+    char *final_html = (char *)malloc(new_length);
+    if (!final_html) {
+	fprintf(stderr, "[FAILED] : Failed to allocate memory for response");
+	close(client);
+	free(html);
+	return -1;
+    }
+    snprintf(final_html, new_length, "%s%s", http_header, html);
+    write(client, final_html, strlen(final_html));
+    
+    free(final_html);
     close(client);
-    
-    free(new_templ);
-    free(templ);
     free(html);
     return 0;
 }
@@ -82,6 +85,12 @@ int main(int argv, char *argc[])
 	printf("[FAILED] : TCP socket could not be created. \n");
 	return -1;
     }
+    
+    // -- stole code for test purposes.
+    int opt = 1;
+    if (setsockopt(server, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) { perror("setsockopt(SO_REUSEADDR) failed"); close(server); return -1; }
+    // --
+    
     struct sockaddr_in addr = {0};
     
     addr.sin_addr.s_addr = INADDR_ANY;

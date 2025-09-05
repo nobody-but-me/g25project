@@ -4,6 +4,6 @@
 
 #include <stdio.h>
 
-char *strrep(char *orig, char *rep, char *with);
+char *strrep(const char *orig, const char *rep, const char *with);
 
 #endif//STR_H

@@ -5,7 +5,7 @@
 
 #include "./str.h"
 
-char *strrep(char *orig, char *rep, char *with)
+char *strrep(const char *orig, const char *rep, const char *with)
 {
     int len_rep, len_with, len_front, count;
     char *result, *ins, *tmp;
@@ -17,7 +17,8 @@ char *strrep(char *orig, char *rep, char *with)
     if (!with) with = "";
     len_with = strlen(with);
     
-    ins = orig;
+    // TODO: bad practice: throwing away const-ness.
+    ins = (char *)orig;
     for (count = 0; (tmp = strstr(ins, rep)); ++count) {
         ins = tmp + len_rep;
     }

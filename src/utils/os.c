@@ -35,7 +35,7 @@ const char *file_to_char(const char *file_path)
     }
     fclose(file);
     
-    printf("[INFO] : File have been loaded sucessfully. \n");
+    printf("[INFO] : File have been loaded and translated to char array sucessfully. \n");
     const char *result = buffer;
     return result;
     

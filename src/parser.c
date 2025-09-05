@@ -111,6 +111,7 @@ char *lexer(const char *tmp)
 	main = parse(&tmp);
     }
     printf("\n%s\n\n", content);
+    free(main);
     return content;
 }
 
