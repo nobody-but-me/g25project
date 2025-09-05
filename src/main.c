@@ -48,15 +48,21 @@ int handle_client(int client)
     int new_length = sizeof(char) * (strlen(http_header) + strlen(templ) + 1);
     html = (char *)malloc(new_length);
     
-    templ = strrep(templ, "%t", result);
-    if (templ == NULL) {
+    char *new_templ = (char*)malloc(strlen(templ) + strlen(result) + 1);
+    sprintf(new_templ, "%s", templ);
+    
+    new_templ = strrep(new_templ, "%t", result);
+    if (new_templ == NULL) {
 	fprintf(stderr, "[FAILED] : Program could not write content into template.\n");
 	return -1;
     }
-    sprintf(html, "%s%s", http_header, templ);
+    sprintf(html, "%s%s", http_header, new_templ);
     
     write(client, html, strlen(html));
     close(client);
+    
+    free(new_templ);
+    free(templ);
     free(html);
     return 0;
 }
