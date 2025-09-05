@@ -8,7 +8,7 @@ mkdir -p build
 cd build
 
 echo "[INFO] : Compiling C files."
-gcc -std=c99 -o ./out ../src/main.c ../src/parser.c
+gcc -std=c99 -o ./out ../src/main.c ../src/parser.c ../src/utils/str.c ../src/utils/os.c
 
 echo "[INFO] : Running."
 ./out && cd ..
