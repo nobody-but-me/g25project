@@ -1,7 +1,7 @@
 
-# Execurator project
+# Carol project
 
-Execurator is meant to be an all-in-one single-binary static website generator for Razomentalist, my new project of personal website. This is an experimental project for learning purposes -- i.e.: it's not meant to be finished or well-coded in anyways. If it comes to become a real application, then this text will be, for sure, changed.
+Carol is meant to be an all-in-one single-binary static website generator for Razomentalist, my new project of personal website. This is an experimental project for learning purposes -- i.e.: it's not meant to be finished or well-coded in anyways. If it comes to become a real application, then this text will be, for sure, changed.
 
 ## Building
 
