@@ -11,7 +11,6 @@
 #include "./utils/os.h"
 
 
-
 static char *read_string(const char **text, const char *tag)
 {
     const char *start = *text;

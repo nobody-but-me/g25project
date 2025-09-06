@@ -50,7 +50,6 @@ BLANK:
 
 char *load_file(const char *file_path)
 {
-    // Code stole from stackoverflow.
     FILE *file = fopen(file_path, "r");
     if (!file) {
 	fprintf(stderr, "[FAILED] : File could not be recognized or does not exist.\n");
@@ -58,8 +57,10 @@ char *load_file(const char *file_path)
     }
     fseek(file, 0, SEEK_END);
     long size = ftell(file);
-    rewind(file);
+    fseek(file, 0, SEEK_SET);
+    
     char *data = malloc(size + 1);
+    if (!data) { fprintf(stderr, "[FAILED] : Failed to allocate memory to file data.\n"); fclose(file); return NULL; }
     fread(data, 1, size, file);
     data[size] =  '\0';
     fclose(file);
