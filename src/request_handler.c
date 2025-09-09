@@ -1,9 +1,9 @@
 
-
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <dirent.h>
 #include <stdio.h>
 #include <errno.h>
 
@@ -12,11 +12,26 @@
 #include "./utils/str.h"
 #include "./utils/os.h"
 
-#define CURRENT_FILE "../../moc_project/main.rd" // for test purposes.
+#define CURRENT_PROJECT_FOLDER "../../moc_project/"
+#define CURRENT_FILE "../../moc_project/main.rd"
 #define BUFFER_SIZE 1024
 
 static const char *translate_content()
 {
+    
+    struct dirent *directory_entry;
+    DIR *directory = opendir(CURRENT_PROJECT_FOLDER);
+    if (directory == NULL) {
+	fprintf(stderr, "[FAILED] : Porject folder could not be opened.\n");
+	return NULL;
+    }
+    
+    printf("\n--------------------------------------------------\n\n");
+    while ((directory_entry = readdir(directory)) != NULL) {
+	printf("[INFO] : %s\n", directory_entry->d_name);
+    }
+    printf("\n--------------------------------------------------\n\n");
+    
     char *file = load_file(CURRENT_FILE);
     if (!file) {
 	fprintf(stderr, "[FAILED] : Main file could not be loaded.\n");
@@ -30,7 +45,8 @@ static const char *translate_content()
     return content;
 }
 
-static char *render_content() {
+static char *render_content()
+{
     const char *templ  = file_to_char("../../index.html");
     const char *result = translate_content();
     

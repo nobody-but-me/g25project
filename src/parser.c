@@ -121,14 +121,14 @@ char *lexer(const char *tmp)
 	    snprintf(_new, length, "<p>%s</p>", main->value);
 	}
 	else if (main->type == TYPE_IMAGE) {
-	    const char *tag = "<img src=''/>";
+	    const char *tag = "<div class='center'><img src=''/></div>";
 	    size_t length = (strlen(main->value) + strlen(tag) + 1);
 	    _new = (char*)malloc(length);
 	    
-	    snprintf(_new, length, "<img src='%s'/>", main->value);
+	    snprintf(_new, length, "<div class='center'><img src='%s'/></div>", main->value);
 	}
 	else if (main->type == TYPE_LINK) {
-	    const char *tag = "<a href='' target='_blank'></a>";
+	    const char *tag = "<div class='center'><a href='' target='_blank'></a></div>";
 	    
 	    const char *link  = strtok(main->value, "|");
 	    const char *value = strtok(NULL, "|");
