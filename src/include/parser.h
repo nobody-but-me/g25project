@@ -3,8 +3,8 @@
 #define PARSER_H
 
 typedef enum {
+    TYPE_BREAKLINE,
     TYPE_HEADER,
-    TYPE_BUTTON,
     TYPE_IMAGE,
     TYPE_LINK,
     TYPE_PARA,

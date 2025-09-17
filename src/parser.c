@@ -54,6 +54,11 @@ void read_content(const char **text, RadownValue *value)
 	value->type = TYPE_IMAGE;
 	return;
     }
+    else if (strncmp(*text, "br]", 3) == 0) {
+	value->type = TYPE_BREAKLINE;
+	*text += 3;
+	return;
+    }
     else if (strncmp(*text, "link=", 5) == 0) {
 	*text += 5;
 	const char *start = *text;
@@ -137,6 +142,13 @@ char *lexer(const char *tmp)
 	    _new = (char*)malloc(length);
 	    
 	    snprintf(_new, length, "<a href='%s'>%s</a>", link, value);
+	}
+	else if (main->type == TYPE_BREAKLINE) {
+	    const char *tag = "<br>";
+	    size_t length = strlen(tag) + 1;
+	    _new = (char*)malloc(length);
+	    
+	    _new = "<br>";
 	}
 	size_t total_length = (strlen(_old) + strlen(_new) + 1);
 	content = (char*)malloc(total_length);
