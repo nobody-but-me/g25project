@@ -23,7 +23,7 @@ And follow the messages. So then, open the local address http://localhost:4242 i
  - [x] Translate Radown files into HTML language;
  - [ ] Load multiple Radown files from project folder;
  - [x] *Radown*: more simple "tags", like images and links;
- - [ ] Multiple paging support;
+ - [x] Multiple paging support;
  - [ ] *Radown* : Capacity to read nested tags;
  - [ ] ;
  ###### Structure

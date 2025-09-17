@@ -8,6 +8,8 @@
 
 #include "./os.h"
 
+#define VERBOSE false
+
 const char *file_to_char(const char *file_path)
 {
     long buffer_size = 0;
@@ -35,13 +37,16 @@ const char *file_to_char(const char *file_path)
 	return NULL;
     }
     fclose(file);
-    
+#if VERBOSE == true
     printf("[INFO] : File have been loaded and translated to char array sucessfully. \n");
+#endif
     const char *result = buffer;
     return result;
     
 BLANK:
+#if VERBOSE == true
     fprintf(stderr, "[INFO] : File is blank. \n");
+#endif
     fclose(file);
     
     buffer = (char *)malloc(sizeof(char));

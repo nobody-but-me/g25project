@@ -38,7 +38,7 @@ static const char *translate_content(const char *current_file)
 {
     char *file = load_file(current_file);
     if (!file) {
-	fprintf(stderr, "[FAILED] : Main file could not be loaded.\n");
+	fprintf(stderr, "[FAILED] : File could not be loaded.\n");
 	return NULL;
     }
     const char *content = lexer((char const *)file);
@@ -114,6 +114,11 @@ int handle_client(int socket)
     const char *page = strcmp(path, "/") == 0 ? "main.html" : path + 1;
     char file_path[BUFFER_SIZE];
     
+    // TODO: Add support to favicons.
+    if (strcmp(page, "favicon.ico") == 0) {
+	return 0;
+    }
+    
     if ((render_content()) == -1) goto ERROR;
     snprintf(file_path, sizeof(file_path), CURRENT_PROJECT_FOLDER"bin/%s", page);
     
@@ -124,6 +129,7 @@ int handle_client(int socket)
 	write(socket, content, strlen(content));
     } else goto ERROR;
     
+    printf("[INFO] : Client had been handled successfully.\n");
     close(socket);
     return 0;
 ERROR:
